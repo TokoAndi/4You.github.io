@@ -44,18 +44,30 @@
     </style>
 </head>
 <body>
+
     <h1>Ubah Link</h1>
+    
+    <!-- Input untuk Base URL -->
+    <p>Base URL:</p>
+    <input type="text" id="baseUrl" value="https://doood.cam">
+    
+    <!-- Input untuk Link -->
     <p>Masukkan link untuk diubah:</p>
     <input type="text" id="inputLink" placeholder="paste link">
+    
     <button id="pasteInput" onclick="tempelInput()">Tempel</button>
     <button onclick="ubahLink()">Ubah dan Salin</button>
     <button id="clearInput" onclick="hapusInput()">Hapus Input</button>
+    
+    <!-- Output -->
     <div id="output"></div>
+    
     <button id="openLink" onclick="bukaLink()">Buka Link</button>
 
     <script>
         function ubahLink() {
-            const input = document.getElementById('inputLink').value;
+            const baseUrl = document.getElementById('baseUrl').value.trim(); // Ambil base URL dari input
+            const input = document.getElementById('inputLink').value.trim();
             const output = document.getElementById('output');
             const openLinkButton = document.getElementById('openLink');
             const clearInputButton = document.getElementById('clearInput');
@@ -68,8 +80,8 @@
 
             const bagianAwal = input.split('//')[1].split('/')[0];
             const bagianAkhir = input.split(bagianAwal)[1];
-            const hasil = `https://doood.cam${bagianAkhir}`;
-            
+            const hasil = `${baseUrl}${bagianAkhir}`; // Base URL dari input
+
             output.textContent = hasil;
             openLinkButton.style.display = "inline-block";
             clearInputButton.style.display = "inline-block";
@@ -87,15 +99,10 @@
         }
 
         function hapusInput() {
-            const input = document.getElementById('inputLink');
-            const output = document.getElementById('output');
-            const openLinkButton = document.getElementById('openLink');
-            const clearInputButton = document.getElementById('clearInput');
-
-            input.value = '';
-            output.textContent = '';
-            openLinkButton.style.display = "none";
-            clearInputButton.style.display = "none";
+            document.getElementById('inputLink').value = '';
+            document.getElementById('output').textContent = '';
+            document.getElementById('openLink').style.display = "none";
+            document.getElementById('clearInput').style.display = "none";
         }
 
         function tempelInput() {
@@ -104,8 +111,7 @@
             if (navigator.clipboard && navigator.clipboard.readText) {
                 navigator.clipboard.readText().then((teks) => {
                     input.value = teks;
-                    const clearInputButton = document.getElementById('clearInput');
-                    clearInputButton.style.display = teks ? "inline-block" : "none";
+                    document.getElementById('clearInput').style.display = teks ? "inline-block" : "none";
                 }).catch((err) => {
                     console.error("Gagal menempel teks dari clipboard:", err);
                     alert("Browser tidak mengizinkan akses clipboard. Silakan coba secara manual.");
@@ -115,5 +121,6 @@
             }
         }
     </script>
+
 </body>
 </html>
